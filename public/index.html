@@ -91,8 +91,8 @@
               </div>
               <select id="categoryFilter">
                 <option value="All">All categories</option>
-                <option value="Apparel">Apparel</option>
-                <option value="Accessories">Accessories</option>
+                <option value="Food">Food</option>
+                <option value="Products">Products</option>
               </select>
             </div>
 
@@ -114,55 +114,185 @@
       </section>
 
       <section id="adminSection" class="admin-shell hidden">
-        <div class="admin-header">
-          <div>
-            <p class="eyebrow small">MERCHANT PANEL</p>
-            <h3>Add and manage products</h3>
-          </div>
-        </div>
+        <div class="admin-dashboard">
+          <aside class="admin-sidebar">
+            <div class="admin-brand">
+              <div class="brand-mark">P</div>
+              <div>
+                <strong>PHLAPZ</strong>
+                <span>Merchant hub</span>
+              </div>
+            </div>
 
-        <div class="admin-grid">
-          <form id="productForm" class="product-form">
-            <div class="field-group">
-              <label for="productName">Product name</label>
-              <input id="productName" name="name" type="text" placeholder="Example: Signature Hoodie" required />
-            </div>
-            <div class="field-group">
-              <label for="productCategory">Category</label>
-              <select id="productCategory" name="category">
-                <option value="Apparel">Apparel</option>
-                <option value="Accessories">Accessories</option>
-              </select>
-            </div>
-            <div class="field-group">
-              <label for="productPrice">Price</label>
-              <input id="productPrice" name="price" type="number" min="0" step="0.01" placeholder="79.00" required />
-            </div>
-            <div class="field-group">
-              <label for="productStock">Stock</label>
-              <input id="productStock" name="stock" type="number" min="0" step="1" value="10" required />
-            </div>
-            <div class="field-group">
-              <label for="productImage">Product image URL</label>
-              <input id="productImage" name="image" type="url" placeholder="https://example.com/product-image.jpg" />
-            </div>
-            <div class="field-group">
-              <label for="productDescription">Description</label>
-              <textarea id="productDescription" name="description" rows="4" placeholder="Describe the product"></textarea>
-            </div>
-            <button class="primary-button wide" type="submit">Save product</button>
-          </form>
+            <nav class="admin-nav">
+              <button class="admin-tab active" data-admin-view="overview">Overview</button>
+              <button class="admin-tab" data-admin-view="products">Products</button>
+              <button class="admin-tab" data-admin-view="members">Members</button>
+              <button class="admin-tab" data-admin-view="orders">Orders</button>
+              <button class="admin-tab" data-admin-view="settings">Settings</button>
+            </nav>
 
-          <div class="admin-list-panel">
-            <h4>Current products</h4>
-            <div id="adminProductList" class="admin-product-list"></div>
-          </div>
-        </div>
+            <div class="admin-sidebar-card">
+              <p class="eyebrow small">STATUS</p>
+              <strong>Live shop</strong>
+            </div>
+          </aside>
 
-        <div class="admin-grid admin-grid-single">
-          <div class="admin-list-panel">
-            <h4>Signed-up members</h4>
-            <div id="adminUsersList" class="admin-product-list"></div>
+          <div class="admin-main">
+            <header class="admin-topbar">
+              <div>
+                <p class="eyebrow small">MERCHANT PANEL</p>
+                <h3>Welcome back, <span id="adminGreetingName">Admin</span></h3>
+              </div>
+              <button id="refreshAdminData" class="primary-button">Refresh</button>
+            </header>
+
+            <div id="adminOverviewPanel" class="admin-panel active">
+              <div class="stats-grid">
+                <article class="stat-card">
+                  <span>Total members</span>
+                  <strong id="statUsers">0</strong>
+                </article>
+                <article class="stat-card">
+                  <span>Products</span>
+                  <strong id="statProducts">0</strong>
+                </article>
+                <article class="stat-card">
+                  <span>Orders</span>
+                  <strong id="statOrders">0</strong>
+                </article>
+                <article class="stat-card accent">
+                  <span>Revenue</span>
+                  <strong id="statRevenue">$0.00</strong>
+                </article>
+                <article class="stat-card alert-card">
+                  <span>Low stock</span>
+                  <strong id="statLowStock">0</strong>
+                </article>
+              </div>
+
+              <div class="dashboard-grid">
+                <div class="admin-list-panel">
+                  <h4>Recent members</h4>
+                  <div id="recentMembersList" class="compact-list"></div>
+                </div>
+
+                <div class="admin-list-panel">
+                  <h4>Recent orders</h4>
+                  <div id="recentOrdersList" class="compact-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="adminProductsPanel" class="admin-panel hidden">
+              <div class="toolbar-row">
+                <input id="adminProductSearch" type="search" placeholder="Search products" />
+                <select id="adminProductCategoryFilter">
+                  <option value="All">All categories</option>
+                  <option value="Food">Food</option>
+                  <option value="Products">Products</option>
+                </select>
+              </div>
+
+              <div class="admin-grid">
+                <form id="productForm" class="product-form">
+                  <div class="field-group">
+                    <label for="productName">Product name</label>
+                    <input id="productName" name="name" type="text" placeholder="Example: Signature Meal Box" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory" name="category">
+                      <option value="Food">Food</option>
+                      <option value="Products">Products</option>
+                    </select>
+                  </div>
+                  <div class="field-group">
+                    <label for="productPrice">Price</label>
+                    <input id="productPrice" name="price" type="number" min="0" step="0.01" placeholder="79.00" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="productStock">Stock</label>
+                    <input id="productStock" name="stock" type="number" min="0" step="1" value="10" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="productImage">Product image URL</label>
+                    <input id="productImage" name="image" type="url" placeholder="https://example.com/product-image.jpg" />
+                  </div>
+                  <div class="field-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" name="description" rows="4" placeholder="Describe the product"></textarea>
+                  </div>
+                  <div class="form-actions">
+                    <button id="productSaveButton" class="primary-button wide" type="submit">Save product</button>
+                    <button id="cancelProductEdit" class="ghost-button wide hidden" type="button">Cancel edit</button>
+                  </div>
+                </form>
+
+                <div class="admin-list-panel">
+                  <h4>Current products</h4>
+                  <div id="adminProductList" class="admin-product-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="adminMembersPanel" class="admin-panel hidden">
+              <div class="admin-list-panel members-panel">
+                <div class="panel-header-row">
+                  <h4>Signed-up members</h4>
+                  <input id="memberSearch" class="search-input" type="search" placeholder="Search members" />
+                </div>
+                <div id="adminUsersList" class="member-list"></div>
+              </div>
+            </div>
+
+            <div id="adminOrdersPanel" class="admin-panel hidden">
+              <div class="admin-list-panel members-panel">
+                <div class="panel-header-row">
+                  <h4>Orders</h4>
+                  <div class="toolbar-inline">
+                    <input id="orderSearch" class="search-input" type="search" placeholder="Search orders" />
+                    <select id="orderStatusFilter">
+                      <option value="All">All statuses</option>
+                      <option value="paid">Paid</option>
+                      <option value="pending">Pending</option>
+                      <option value="fulfilled">Fulfilled</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                    <button id="exportOrdersButton" class="primary-button">Export CSV</button>
+                  </div>
+                </div>
+                <div id="adminOrdersList" class="member-list"></div>
+              </div>
+            </div>
+
+            <div id="adminSettingsPanel" class="admin-panel hidden">
+              <div class="admin-grid">
+                <div class="admin-list-panel">
+                  <h4>Store status</h4>
+                  <div id="storeHealthWidget" class="status-widget">
+                    <p class="product-description">Loading store health...</p>
+                  </div>
+                </div>
+                <div class="admin-list-panel">
+                  <h4>Quick actions</h4>
+                  <div class="quick-actions-list">
+                    <a href="#" class="quick-action-item">
+                      <strong>View live store</strong>
+                      <span>Open the storefront</span>
+                    </a>
+                    <a href="#" class="quick-action-item">
+                      <strong>Documentation</strong>
+                      <span>Learn more about PHLAPZ</span>
+                    </a>
+                    <a href="mailto:support@phlapz.com" class="quick-action-item">
+                      <strong>Get support</strong>
+                      <span>Contact the team</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

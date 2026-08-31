@@ -155,6 +155,136 @@ app.get('/api/admin/users', (req, res) => {
   res.json(users);
 });
 
+app.put('/api/admin/users/:id', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const { role, approved } = req.body || {};
+  const users = readJson(usersPath);
+  const user = users.find((item) => item.id === req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: 'User not found.' });
+  }
+
+  if (role) user.role = role;
+  if (approved !== undefined) user.approved = approved;
+
+  writeJson(usersPath, users);
+  res.json({ ok: true, user });
+});
+
+app.delete('/api/admin/users/:id', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const users = readJson(usersPath);
+  const filtered = users.filter((user) => user.id !== req.params.id);
+  writeJson(usersPath, filtered);
+  res.json({ ok: true });
+});
+
+app.get('/api/admin/check', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  res.json({ ok: true, user: req.session.user });
+});
+
+app.get('/api/admin/summary', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const users = readJson(usersPath);
+  const products = readJson(productsPath);
+  const orders = fs.existsSync(ordersPath) ? readJson(ordersPath) : [];
+  const revenue = orders.reduce((sum, order) => sum + Number(order.amount || 0), 0);
+  const lowStockProducts = products.filter((p) => Number(p.stock || 0) <= 5);
+
+  res.json({
+    users: users.length,
+    products: products.length,
+    orders: orders.length,
+    revenue,
+    lowStockCount: lowStockProducts.length,
+    recentMembers: users.slice(0, 5).map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    })),
+    recentOrders: orders.slice(0, 5).map((order) => ({
+      id: order.id,
+      customerName: order.customerName,
+      amount: order.amount,
+      status: order.status
+    }))
+  });
+});
+
+app.get('/api/admin/orders', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const orders = fs.existsSync(ordersPath) ? readJson(ordersPath) : [];
+  res.json(orders);
+});
+
+app.get('/api/admin/export/orders', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const orders = fs.existsSync(ordersPath) ? readJson(ordersPath) : [];
+  const csvHeader = ['Order ID', 'Customer', 'Email', 'Amount', 'Status', 'Date', 'Items'].join(',');
+  const csvRows = orders.map((order) => {
+    const itemStr = (order.items || []).map((item) => `${item.name}x${item.quantity}`).join('; ');
+    const date = new Date(order.createdAt || Date.now()).toLocaleDateString();
+    return [order.id, `"${order.customerName}"`, order.customerEmail, order.amount, order.status || 'paid', date, `"${itemStr}"`].join(',');
+  });
+
+  const csv = [csvHeader, ...csvRows].join('\n');
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', 'attachment; filename="orders-export.csv"');
+  res.send(csv);
+});
+
+app.get('/api/admin/health', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const users = readJson(usersPath);
+  const products = readJson(productsPath);
+  const orders = fs.existsSync(ordersPath) ? readJson(ordersPath) : [];
+
+  const lowStockProducts = products.filter((p) => Number(p.stock || 0) <= 5);
+  const paidOrders = orders.filter((o) => o.status === 'paid').length;
+  const unfulfilledOrders = orders.filter((o) => o.status !== 'fulfilled' && o.status !== 'cancelled').length;
+  const todaysOrders = orders.filter((o) => {
+    const orderDate = new Date(o.createdAt || Date.now());
+    const today = new Date();
+    return orderDate.toDateString() === today.toDateString();
+  }).length;
+
+  res.json({
+    storeHealth: 'running',
+    totalMembers: users.length,
+    totalProducts: products.length,
+    totalOrders: orders.length,
+    todaysOrders,
+    paidOrders,
+    unfulfilledOrders,
+    lowStockProducts: lowStockProducts.map((p) => ({ id: p.id, name: p.name, stock: p.stock })),
+    lastOrderTime: orders.length > 0 ? orders[0].createdAt : null,
+    avgOrderValue: orders.length > 0 ? (orders.reduce((sum, o) => sum + Number(o.amount || 0), 0) / orders.length).toFixed(2) : 0
+  });
+});
+
 app.get('/api/products', (req, res) => {
   const products = readJson(productsPath);
   res.json(products);
@@ -278,6 +408,55 @@ app.post('/api/admin/products', (req, res) => {
   products.unshift(product);
   writeJson(productsPath, products);
   res.status(201).json(product);
+});
+
+app.put('/api/admin/products/:id', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const { name, category, price, stock, description, image } = req.body || {};
+  if (!name || !category || price === undefined || stock === undefined) {
+    return res.status(400).json({ error: 'Name, category, price, and stock are required.' });
+  }
+
+  const products = readJson(productsPath);
+  const product = products.find((item) => item.id === req.params.id);
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found.' });
+  }
+
+  product.name = name;
+  product.category = category;
+  product.price = Number(price);
+  product.stock = Number(stock);
+  product.description = description || '';
+  product.image = image || '';
+
+  writeJson(productsPath, products);
+  res.json(product);
+});
+
+app.patch('/api/admin/orders/:id/status', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required.' });
+  }
+
+  const { status } = req.body || {};
+  const validStatuses = ['paid', 'pending', 'fulfilled', 'cancelled'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({ error: 'A valid status is required.' });
+  }
+
+  const orders = fs.existsSync(ordersPath) ? readJson(ordersPath) : [];
+  const order = orders.find((item) => item.id === req.params.id);
+  if (!order) {
+    return res.status(404).json({ error: 'Order not found.' });
+  }
+
+  order.status = status;
+  writeJson(ordersPath, orders);
+  res.json(order);
 });
 
 app.delete('/api/admin/products/:id', (req, res) => {

@@ -1,29 +1,42 @@
 [
   {
-    "id": "p-1788152258734",
-    "name": "PERCS",
-    "category": "Apparel",
-    "price": 50,
-    "stock": 50,
-    "featured": false,
-    "description": ""
+    "id": "p-food-1",
+    "name": "Signature Meal Box",
+    "category": "Food",
+    "price": 24.99,
+    "stock": 25,
+    "featured": true,
+    "description": "A curated combo meal packed for quick pickup and everyday convenience.",
+    "image": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80"
   },
   {
-    "id": "p-1788152220256",
-    "name": "HARD",
-    "category": "Apparel",
-    "price": 100,
-    "stock": 100,
+    "id": "p-food-2",
+    "name": "Fresh Fruit Basket",
+    "category": "Food",
+    "price": 18.5,
+    "stock": 18,
     "featured": false,
-    "description": "HARD"
+    "description": "Seasonal fruit selected for quality, freshness, and a premium feel.",
+    "image": "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=900&q=80"
   },
   {
-    "id": "p-1788152126928",
-    "name": "Phlap",
-    "category": "Apparel",
-    "price": 85,
-    "stock": 300,
+    "id": "p-product-1",
+    "name": "PHLAPZ Starter Bundle",
+    "category": "Products",
+    "price": 59.0,
+    "stock": 30,
+    "featured": true,
+    "description": "A member favorite bundle made for gifting, daily use, or personal treats.",
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    "id": "p-product-2",
+    "name": "Premium Daily Essentials Kit",
+    "category": "Products",
+    "price": 42.75,
+    "stock": 22,
     "featured": false,
-    "description": "a Phlap is just a phlap"
+    "description": "A practical essentials pack designed to add convenience and value.",
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"
   }
 ]
