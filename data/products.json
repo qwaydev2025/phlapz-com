@@ -1,0 +1,29 @@
+[
+  {
+    "id": "p-1788152258734",
+    "name": "PERCS",
+    "category": "Apparel",
+    "price": 50,
+    "stock": 50,
+    "featured": false,
+    "description": ""
+  },
+  {
+    "id": "p-1788152220256",
+    "name": "HARD",
+    "category": "Apparel",
+    "price": 100,
+    "stock": 100,
+    "featured": false,
+    "description": "HARD"
+  },
+  {
+    "id": "p-1788152126928",
+    "name": "Phlap",
+    "category": "Apparel",
+    "price": 85,
+    "stock": 300,
+    "featured": false,
+    "description": "a Phlap is just a phlap"
+  }
+]
