@@ -37,6 +37,7 @@
           <p class="eyebrow">PRIVATE MEMBERS ACCESS</p>
           <h1>Access the catalog with your account.</h1>
           <p class="auth-copy">Only approved members can view products and place orders. Create an account or sign in to unlock your pricing.</p>
+          <p class="support-note">Need help? Contact <a href="mailto:support@phlapz.com">support@phlapz.com</a></p>
 
           <div class="auth-tabs">
             <button class="tab-button active" data-mode="login">Sign in</button>
@@ -73,6 +74,12 @@
             <span>Member pricing</span>
             <strong id="memberName">Welcome</strong>
           </div>
+        </div>
+
+        <div class="brand-story">
+          <p class="eyebrow small">ABOUT PHLAPZ</p>
+          <h3>Private, premium, and built for effortless shopping.</h3>
+          <p>PHLAPZ.COM is a private member-only storefront built to make buying simple and running the business seamless. Members can sign up, browse curated products, add items to their cart, and complete secure Stripe payments with ease. The admin side allows product management, inventory updates, and order tracking, while automated alerts keep the business running smoothly with minimal effort.</p>
         </div>
 
         <div class="catalog-layout">
@@ -136,6 +143,10 @@
               <input id="productStock" name="stock" type="number" min="0" step="1" value="10" required />
             </div>
             <div class="field-group">
+              <label for="productImage">Product image URL</label>
+              <input id="productImage" name="image" type="url" placeholder="https://example.com/product-image.jpg" />
+            </div>
+            <div class="field-group">
               <label for="productDescription">Description</label>
               <textarea id="productDescription" name="description" rows="4" placeholder="Describe the product"></textarea>
             </div>
@@ -145,6 +156,13 @@
           <div class="admin-list-panel">
             <h4>Current products</h4>
             <div id="adminProductList" class="admin-product-list"></div>
+          </div>
+        </div>
+
+        <div class="admin-grid admin-grid-single">
+          <div class="admin-list-panel">
+            <h4>Signed-up members</h4>
+            <div id="adminUsersList" class="admin-product-list"></div>
           </div>
         </div>
       </section>

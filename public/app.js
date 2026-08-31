@@ -1,6 +1,7 @@
 const state = {
   user: null,
   products: [],
+  users: [],
   cart: [],
   mode: 'login',
   filter: 'All'
@@ -22,6 +23,7 @@ const subtotalValue = document.querySelector('#subtotalValue');
 const categoryFilter = document.querySelector('#categoryFilter');
 const productForm = document.querySelector('#productForm');
 const adminProductList = document.querySelector('#adminProductList');
+const adminUsersList = document.querySelector('#adminUsersList');
 const adminLink = document.querySelector('#adminLink');
 const cartButton = document.querySelector('#cartButton');
 
@@ -71,20 +73,26 @@ function renderProducts() {
     return;
   }
 
-  productGrid.innerHTML = filtered.map((product) => `
-    <article class="product-card">
-      <div class="product-image">${product.name.charAt(0)}</div>
-      <div class="product-content">
-        <div class="product-meta">
-          <span>${product.category}</span>
-          <span class="product-price">$${Number(product.price).toFixed(2)}</span>
+  productGrid.innerHTML = filtered.map((product) => {
+    const imageMarkup = product.image
+      ? `<img class="product-thumb" src="${product.image}" alt="${product.name}" />`
+      : `<div class="product-image">${product.name.charAt(0)}</div>`;
+
+    return `
+      <article class="product-card">
+        ${imageMarkup}
+        <div class="product-content">
+          <div class="product-meta">
+            <span>${product.category}</span>
+            <span class="product-price">$${Number(product.price).toFixed(2)}</span>
+          </div>
+          <h4>${product.name}</h4>
+          <div class="product-description">${product.description || 'Premium product for approved members.'}</div>
+          <button data-product-id="${product.id}" class="add-to-cart">Add to cart</button>
         </div>
-        <h4>${product.name}</h4>
-        <div class="product-description">${product.description || 'Premium product for approved members.'}</div>
-        <button data-product-id="${product.id}" class="add-to-cart">Add to cart</button>
-      </div>
-    </article>
-  `).join('');
+      </article>
+    `;
+  }).join('');
 
   document.querySelectorAll('.add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
@@ -128,6 +136,28 @@ function renderAdminProducts() {
   });
 }
 
+function renderAdminUsers() {
+  if (!state.user || state.user.role !== 'admin') {
+    adminUsersList.innerHTML = '';
+    return;
+  }
+
+  if (!state.users.length) {
+    adminUsersList.innerHTML = '<p class="product-description">No members yet.</p>';
+    return;
+  }
+
+  adminUsersList.innerHTML = state.users.map((member) => `
+    <div class="admin-product-row">
+      <div>
+        <strong>${member.name}</strong>
+        <div class="product-description">${member.email}</div>
+      </div>
+      <span class="pill">${member.role}</span>
+    </div>
+  `).join('');
+}
+
 async function fetchProducts() {
   const response = await fetch('/api/products');
   if (!response.ok) {
@@ -142,6 +172,24 @@ async function fetchProducts() {
   renderAdminProducts();
 }
 
+async function fetchUsers() {
+  if (!state.user || state.user.role !== 'admin') {
+    state.users = [];
+    renderAdminUsers();
+    return;
+  }
+
+  const response = await fetch('/api/admin/users');
+  if (!response.ok) {
+    state.users = [];
+    renderAdminUsers();
+    return;
+  }
+
+  state.users = await response.json();
+  renderAdminUsers();
+}
+
 function showStore() {
   authSection.classList.add('hidden');
   storeSection.classList.remove('hidden');
@@ -152,6 +200,7 @@ function showStore() {
   }
   logoutButton.classList.remove('hidden');
   memberName.textContent = state.user ? state.user.name : 'Member';
+  renderAdminUsers();
 }
 
 function showAuth() {
@@ -175,6 +224,7 @@ async function loadSession() {
   if (state.user) {
     showStore();
     await fetchProducts();
+    await fetchUsers();
   } else {
     showAuth();
   }
@@ -207,6 +257,7 @@ async function submitAuth(event) {
   authForm.reset();
   showStore();
   await fetchProducts();
+  await fetchUsers();
 }
 
 async function submitProduct(event) {
@@ -217,7 +268,8 @@ async function submitProduct(event) {
     price: Number(formData.get('price')),
     stock: Number(formData.get('stock')),
     category: formData.get('category').toString(),
-    description: formData.get('description').toString().trim()
+    description: formData.get('description').toString().trim(),
+    image: formData.get('image')?.toString().trim() || ''
   };
 
   const response = await fetch('/api/admin/products', {

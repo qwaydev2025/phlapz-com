@@ -1,18 +1,18 @@
 [
   {
-    "id": "merchant-1",
-    "name": "Store Owner",
-    "email": "admin@yourstore.com",
-    "password": "admin123",
+    "id": "BOSSMAN",
+    "name":"TONY PHLAPZ",
+    "email": "admin@phlapz.com",
+    "password": "12345678",
     "role": "admin",
     "approved": true
   },
   {
-    "id": "user-1788144200907",
-    "name": "john",
-    "email": "info@evewardinc.com",
-    "password": "Deantonio082392$",
-    "role": "member",
+    "id": "Qway",
+    "name": "Qway",
+    "email": "qwayloon2025@gmail.com",
+    "password": "12345678",
+    "role": "admin",
     "approved": true
   }
 ]
