@@ -3,38 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PHLAPZ.COM | Private Shop</title>
+    <title>PHLAPZ | BIG CRAVINGS. ANYTIME.</title>
+    <meta name="description" content="Jamaican-inspired sandwiches and comfort food from PHLAPZ. Browse the menu and order for pickup." />
+    <meta name="theme-color" content="#111214" />
+    <link rel="canonical" href="https://www.phlapz.com/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#mainContent">Skip to content</a>
     <header class="topbar">
       <div class="brand-wrap">
         <div class="brand-mark">P</div>
         <div>
-          <div class="brand-name">PHLAPZ.COM</div>
-          <div class="brand-sub">Private shop</div>
+          <div class="brand-name">PHLAPZ</div>
+          <div class="brand-sub">Jamaican-inspired comfort food</div>
         </div>
       </div>
 
-      <nav class="main-nav">
-        <a href="#">Home</a>
-        <a href="#shop">Shop</a>
-        <a href="#admin" id="adminLink">Admin</a>
+      <button id="mobileNavToggle" class="mobile-nav-toggle" type="button" aria-label="Open navigation menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <a href="#home" id="homeLink">Home</a>
+        <a href="#shop" id="shopLink">Menu</a>
+        <a href="#checkout" id="checkoutLink">Checkout</a>
+        <a href="#admin" id="adminLink" class="hidden">Admin</a>
       </nav>
 
       <div class="account-strip">
         <button id="cartButton" class="ghost-button">Cart (<span id="cartCount">0</span>)</button>
-        <button id="logoutButton" class="primary-button hidden">Log out</button>
+        <button id="logoutButton" class="primary-button">Sign in</button>
       </div>
     </header>
 
-    <main>
-      <section id="authSection" class="auth-shell">
+    <main id="mainContent">
+      <section id="homeSection" class="home-shell hidden">
+        <div class="homepage-banner">
+          <img src="/phlapz-showcase.png" alt="Phlapz.com specialty goods" class="homepage-image" />
+          <div class="homepage-overlay"></div>
+          <div class="homepage-cta">
+            <div class="homepage-text">
+              <p class="homepage-tagline">RETAIL &amp; IMPORT/EXPORT</p>
+              <h1>Everyday products, thoughtfully selected.</h1>
+            </div>
+            <div class="homepage-buttons">
+              <button class="primary-button" id="homeToShopBtn">Browse Our Collection</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="authSection" class="auth-shell hidden">
+        <div class="auth-container">
+          <div class="showcase-banner auth-showcase">
+            <img src="/phlapz-showcase.png" alt="Phlapz.com specialty goods" class="showcase-image" />
+            <div class="showcase-overlay"></div>
+            <div class="showcase-cta">
+              <div class="showcase-text">
+                <p class="showcase-tagline">RETAIL &amp; IMPORT/EXPORT</p>
+                <h2>Discover everyday products and specialty goods.</h2>
+              </div>
+            </div>
+          </div>
         <div class="auth-card">
-          <p class="eyebrow">PRIVATE MEMBERS ACCESS</p>
           <h1>Access the catalog with your account.</h1>
           <p class="auth-copy">Only approved members can view products and place orders. Create an account or sign in to unlock your pricing.</p>
           <p class="support-note">Need help? Contact <a href="mailto:support@phlapz.com">support@phlapz.com</a></p>
@@ -55,61 +92,169 @@
             </div>
             <div class="field-group">
               <label for="passwordField">Password</label>
-              <input id="passwordField" name="password" type="password" placeholder="Enter password" required />
+              <input id="passwordField" name="password" type="password" placeholder="Enter password" maxlength="1024" required />
             </div>
             <button class="primary-button wide" type="submit" id="authSubmit">Sign in</button>
           </form>
+          <button class="text-button auth-reset-toggle" id="forgotPasswordButton" type="button">Forgot password?</button>
+
+          <form id="passwordResetRequestForm" class="hidden">
+            <div class="field-group">
+              <label for="resetEmail">Account email</label>
+              <input id="resetEmail" name="email" type="email" autocomplete="email" required />
+            </div>
+            <button class="primary-button wide" type="submit">Send reset link</button>
+            <button class="text-button" id="backToLoginButton" type="button">Back to sign in</button>
+          </form>
+
+          <form id="passwordResetCompleteForm" class="hidden">
+            <div class="field-group">
+              <label for="newPasswordField">New password (at least 12 characters)</label>
+              <input id="newPasswordField" name="password" type="password" minlength="12" maxlength="1024" autocomplete="new-password" required />
+            </div>
+            <button class="primary-button wide" type="submit">Reset password</button>
+          </form>
 
           <p id="authMessage" class="auth-message"></p>
+          <p id="passwordResetMessage" class="auth-message" aria-live="polite"></p>
+        </div>
         </div>
       </section>
 
-      <section id="storeSection" class="store-shell hidden">
+      <section id="storeSection" class="store-shell">
         <div class="hero-banner">
           <div>
-            <p class="eyebrow">CURATED COLLECTION</p>
-            <h2>Only available to approved members.</h2>
+            <p class="eyebrow">JAMAICAN-INSPIRED STREET FOOD · TORONTO</p>
+            <h1>BIG CRAVINGS.<br />ANYTIME.</h1>
+            <p>Big flavour, made fresh. Explore the PHLAPZ menu and order for pickup.</p>
+            <a class="primary-button hero-order-link" href="#menu" id="heroMenuLink">Explore the menu</a>
           </div>
           <div class="hero-meta">
-            <span>Member pricing</span>
-            <strong id="memberName">Welcome</strong>
+            <span id="storefrontAvailability">Checking order availability…</span>
+            <strong id="memberName">PHLAPZ Kitchen</strong>
           </div>
         </div>
 
         <div class="brand-story">
-          <p class="eyebrow small">ABOUT PHLAPZ</p>
-          <h3>Private, premium, and built for effortless shopping.</h3>
-          <p>PHLAPZ.COM is a private member-only storefront built to make buying simple and running the business seamless. Members can sign up, browse curated products, add items to their cart, and complete secure Stripe payments with ease. The admin side allows product management, inventory updates, and order tracking, while automated alerts keep the business running smoothly with minimal effort.</p>
+          <p class="eyebrow small">THE PHLAPZ WAY</p>
+          <h3>Comfort food with a little island soul.</h3>
+          <p>From our signature fried-egg sandwich to Jamaican patties, PHLAPZ brings bold, familiar flavours to the everyday.</p>
+          <p id="kitchenHours">Kitchen hours are being confirmed.</p>
+          <p>Pickup ordering starts here. Delivery and third-party ordering platforms are not connected.</p>
         </div>
 
-        <div class="catalog-layout">
+        <section class="featured-products" id="menu" aria-labelledby="featuredHeading">
+          <div class="catalog-topbar">
+            <div>
+              <p class="eyebrow small">MADE FOR BIG CRAVINGS</p>
+              <h2 id="featuredHeading">The menu</h2>
+            </div>
+            <label class="menu-search-label" for="menuSearch">Find a favourite
+              <input id="menuSearch" type="search" placeholder="Search the menu" />
+            </label>
+          </div>
+          <div id="featuredProductGrid" class="product-grid featured-grid"></div>
+        </section>
+
+        <div class="catalog-layout single-layout">
           <div class="catalog-panel">
             <div class="catalog-topbar">
               <div>
-                <p class="eyebrow small">OUR PRODUCTS</p>
-                <h3>Shop the collection</h3>
+                <p class="eyebrow small">PICK YOUR PHLAPZ</p>
+                <h3>Good food, your way</h3>
               </div>
               <select id="categoryFilter">
                 <option value="All">All categories</option>
-                <option value="Food">Food</option>
-                <option value="Products">Products</option>
+                <option value="Signature Sandwiches">Signature Sandwiches</option>
+                <option value="Loaded Sandwiches">Loaded Sandwiches</option>
+                <option value="Jamaican Patties">Jamaican Patties</option>
+                <option value="Combos">Combos</option>
+                <option value="Drinks">Drinks</option>
               </select>
             </div>
 
             <div id="productGrid" class="product-grid"></div>
           </div>
+        </div>
+        <section class="channel-notice" aria-labelledby="channelsHeading">
+          <p class="eyebrow small">ONE KITCHEN, ONE CLEAR ORDER QUEUE</p>
+          <h2 id="channelsHeading">Order direct from PHLAPZ</h2>
+          <p>Uber Eats, DoorDash, and SkipTheDishes are future channels. They are not connected to this website today.</p>
+        </section>
+      </section>
 
-          <aside class="cart-panel">
-            <div class="cart-header">
-              <p class="eyebrow small">YOUR CART</p>
-              <h3>Checkout</h3>
+      <section id="checkoutSection" class="checkout-shell hidden">
+        <div class="checkout-panel">
+          <div class="checkout-header">
+            <p class="eyebrow small">CHECKOUT</p>
+            <h2>Complete your order</h2>
+          </div>
+
+          <div class="checkout-layout">
+            <div class="checkout-items-panel">
+              <div class="checkout-panel-header">
+                <h3>Your cart</h3>
+                <span class="status-badge">Secure</span>
+              </div>
+              <div id="cartItems" class="cart-items"></div>
+              <div class="checkout-fields">
+                <h3>Your pickup order</h3>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="checkoutName">Full name</label>
+                    <input id="checkoutName" type="text" maxlength="100" autocomplete="name" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="checkoutEmail">Email</label>
+                    <input id="checkoutEmail" type="email" maxlength="254" autocomplete="email" required />
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="checkoutPhone">Phone</label>
+                  <input id="checkoutPhone" type="tel" maxlength="40" autocomplete="tel" />
+                </div>
+                <div class="field-group">
+                  <label for="checkoutPickupTime">Pickup time</label>
+                  <input id="checkoutPickupTime" type="datetime-local" required />
+                  <small>Available pickup times will follow the kitchen’s published hours.</small>
+                </div>
+                <div class="field-group">
+                  <label for="checkoutNotes">Order notes (optional)</label>
+                  <textarea id="checkoutNotes" rows="3" maxlength="1000" placeholder="Anything the kitchen should know?"></textarea>
+                </div>
+                <div class="field-group">
+                  <label for="paymentMethod">Payment method</label>
+                  <select id="paymentMethod" required></select>
+                </div>
+                <p id="paymentInstructionsPreview" class="checkout-note">Pickup only. Delivery is not available.</p>
+              </div>
             </div>
-            <div id="cartItems" class="cart-items"></div>
-            <div class="cart-totals">
-              <div><span>Subtotal</span><strong id="subtotalValue">$0.00</strong></div>
-              <button class="primary-button wide" id="checkoutButton">Complete purchase</button>
-            </div>
-          </aside>
+
+            <aside class="checkout-summary">
+              <h3>Order summary</h3>
+              <div class="summary-stack">
+                <div class="summary-row">
+                  <span>Subtotal</span>
+                  <strong id="subtotalValue">$0.00</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Shipping</span>
+                  <strong id="shippingValue">Arranged after review</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Tax</span>
+                  <strong id="taxValue">Calculated by region</strong>
+                </div>
+                <div class="summary-row total-row">
+                  <span>Total</span>
+                  <strong id="subtotalValueFinal">$0.00</strong>
+                </div>
+              </div>
+              <button class="primary-button wide" id="checkoutButton">Place order</button>
+              <div id="orderResult" class="order-result hidden" role="status" aria-live="polite"></div>
+              <p class="product-description">Payment verification and owner approval are tracked separately.</p>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -130,6 +275,7 @@
               <button class="admin-tab" data-admin-view="members">Members</button>
               <button class="admin-tab" data-admin-view="orders">Orders</button>
               <button class="admin-tab" data-admin-view="settings">Settings</button>
+              <button class="admin-tab hidden" id="ceoAdminTab" data-admin-view="ceo">AI CEO</button>
             </nav>
 
             <div class="admin-sidebar-card">
@@ -146,6 +292,11 @@
               </div>
               <button id="refreshAdminData" class="primary-button">Refresh</button>
             </header>
+
+            <div class="admin-showcase">
+              <img src="/phlapz-showcase.png" alt="PHLAPZ Candy Collection" class="admin-showcase-image" />
+              <div class="admin-showcase-label">Your Premium Candy Collection</div>
+            </div>
 
             <div id="adminOverviewPanel" class="admin-panel active">
               <div class="stats-grid">
@@ -189,8 +340,17 @@
                 <input id="adminProductSearch" type="search" placeholder="Search products" />
                 <select id="adminProductCategoryFilter">
                   <option value="All">All categories</option>
-                  <option value="Food">Food</option>
-                  <option value="Products">Products</option>
+                  <option value="Signature Sandwiches">Signature Sandwiches</option>
+                  <option value="Loaded Sandwiches">Loaded Sandwiches</option>
+                  <option value="Jamaican Patties">Jamaican Patties</option>
+                  <option value="Combos">Combos</option>
+                  <option value="Drinks">Drinks</option>
+                  <option value="Electric Bikes">Electric Bikes</option>
+                  <option value="Bike Accessories">Bike Accessories</option>
+                  <option value="Candy &amp; Snacks">Candy &amp; Snacks</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="General Merchandise">General Merchandise</option>
+                  <option value="Snowblowers">Snowblowers</option>
                 </select>
               </div>
 
@@ -203,25 +363,58 @@
                   <div class="field-group">
                     <label for="productCategory">Category</label>
                     <select id="productCategory" name="category">
-                      <option value="Food">Food</option>
-                      <option value="Products">Products</option>
+                      <option value="Signature Sandwiches">Signature Sandwiches</option>
+                      <option value="Loaded Sandwiches">Loaded Sandwiches</option>
+                      <option value="Jamaican Patties">Jamaican Patties</option>
+                      <option value="Combos">Combos</option>
+                      <option value="Drinks">Drinks</option>
+                      <option value="Electric Bikes">Electric Bikes</option>
+                      <option value="Bike Accessories">Bike Accessories</option>
+                      <option value="Candy &amp; Snacks">Candy &amp; Snacks</option>
+                      <option value="Electronics">Electronics</option>
+                      <option value="General Merchandise">General Merchandise</option>
+                      <option value="Snowblowers">Snowblowers</option>
                     </select>
                   </div>
                   <div class="field-group">
-                    <label for="productPrice">Price</label>
-                    <input id="productPrice" name="price" type="number" min="0" step="0.01" placeholder="79.00" required />
+                    <label for="productPrice">Price (CAD)</label>
+                    <input id="productPrice" name="price" type="number" min="0" step="0.01" required />
                   </div>
                   <div class="field-group">
                     <label for="productStock">Stock</label>
                     <input id="productStock" name="stock" type="number" min="0" step="1" value="10" required />
                   </div>
                   <div class="field-group">
-                    <label for="productImage">Product image URL</label>
+                    <label for="productImage">Product image URL (optional)</label>
                     <input id="productImage" name="image" type="url" placeholder="https://example.com/product-image.jpg" />
+                  </div>
+                  <div class="field-group">
+                    <label for="productImageFile">Upload product image</label>
+                    <input id="productImageFile" name="imageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
                   </div>
                   <div class="field-group">
                     <label for="productDescription">Description</label>
                     <textarea id="productDescription" name="description" rows="4" placeholder="Describe the product"></textarea>
+                  </div>
+                  <div class="field-group">
+                    <label for="productIngredients">Ingredients (one per line)</label>
+                    <textarea id="productIngredients" name="ingredients" rows="3" maxlength="2000"></textarea>
+                  </div>
+                  <div class="field-group">
+                    <label for="productAllergens">Allergens (one per line)</label>
+                    <textarea id="productAllergens" name="allergens" rows="2" maxlength="1000"></textarea>
+                  </div>
+                  <div class="field-group">
+                    <label for="productPreparationMinutes">Preparation time (minutes)</label>
+                    <input id="productPreparationMinutes" name="preparationMinutes" type="number" min="0" max="1440" step="1" />
+                  </div>
+                  <div class="field-group">
+                    <label for="productCustomizations">Optional add-ons (one per line: Add cheese | 1.50)</label>
+                    <textarea id="productCustomizations" name="customizations" rows="4" maxlength="2000"></textarea>
+                  </div>
+                  <div class="field-group publish-field">
+                    <label><input id="productPublished" name="published" type="checkbox" checked /> Publish on storefront</label>
+                    <small>Unpublished drafts cannot be added to carts or checked out.</small>
                   </div>
                   <div class="form-actions">
                     <button id="productSaveButton" class="primary-button wide" type="submit">Save product</button>
@@ -254,10 +447,20 @@
                     <input id="orderSearch" class="search-input" type="search" placeholder="Search orders" />
                     <select id="orderStatusFilter">
                       <option value="All">All statuses</option>
-                      <option value="paid">Paid</option>
-                      <option value="pending">Pending</option>
-                      <option value="fulfilled">Fulfilled</option>
-                      <option value="cancelled">Cancelled</option>
+                      <option value="PENDING_CONFIRMATION">Pending confirmation</option>
+                      <option value="payment:AWAITING_PAYMENT">Awaiting payment</option>
+                      <option value="payment:PENDING">Payment pending</option>
+                      <option value="payment:PAID">Paid</option>
+                      <option value="payment:FAILED">Payment failed</option>
+                      <option value="CONFIRMED">Confirmed</option>
+                      <option value="REJECTED">Rejected</option>
+                      <option value="PROCESSING">Processing</option>
+                      <option value="SHIPPED">Shipped</option>
+                      <option value="COMPLETED">Completed</option>
+                      <option value="CANCELLED">Cancelled</option>
+                      <option value="payment:REFUND_PENDING">Refund pending</option>
+                      <option value="payment:PARTIALLY_REFUNDED">Partially refunded</option>
+                      <option value="payment:REFUNDED">Refunded</option>
                     </select>
                     <button id="exportOrdersButton" class="primary-button">Export CSV</button>
                   </div>
@@ -269,6 +472,42 @@
             <div id="adminSettingsPanel" class="admin-panel hidden">
               <div class="admin-grid">
                 <div class="admin-list-panel">
+                  <h4>Pickup operations</h4>
+                  <p class="product-description">Website access stays available 24/7. Orders are accepted only when the feature flag is enabled, order acceptance is on, pickup is available, and a requested time falls within the published Toronto kitchen hours. Pickup requests remain subject to owner review.</p>
+                  <div class="field-group publish-field">
+                    <label><input id="acceptingOrders" type="checkbox" /> Accept online food orders</label>
+                  </div>
+                  <div class="field-group publish-field">
+                    <label><input id="temporarilyClosed" type="checkbox" /> Temporary kitchen closure</label>
+                  </div>
+                  <div class="field-group publish-field">
+                    <label><input id="pickupEnabled" type="checkbox" /> Pickup available</label>
+                  </div>
+                  <div class="field-group">
+                    <label for="minimumLeadMinutes">Minimum pickup notice (minutes)</label>
+                    <input id="minimumLeadMinutes" type="number" min="0" max="1440" step="1" value="30" />
+                  </div>
+                  <div class="field-group">
+                    <label for="pickupHours">Weekly pickup hours (one day per line: Monday | 09:00 | 17:00)</label>
+                    <textarea id="pickupHours" rows="7" maxlength="1000" placeholder="Monday | 09:00 | 17:00"></textarea>
+                  </div>
+                  <button id="saveBusinessSettings" class="primary-button" type="button">Save pickup settings</button>
+                  <p class="product-description">Online ordering also requires <code>FOOD_ORDERING_ENABLED=true</code> in the server environment. Delivery is disabled. Marketplace platforms are not connected.</p>
+                </div>
+                <div class="admin-list-panel">
+                  <h4>Payment methods and tax</h4>
+                  <p class="product-description">Customers always remain pending until you approve the order. Enter one manual payment method per line as <code>Name | instructions</code>. Enter one tax jurisdiction per line as <code>CA-ON | 0.13</code>. Orders are blocked for regions without an explicitly configured tax rate. Shipping is arranged after review and is not included in the checkout total.</p>
+                  <div class="field-group">
+                    <label for="manualPaymentMethods">Manual payment methods</label>
+                    <textarea id="manualPaymentMethods" rows="6" maxlength="8000" placeholder="Bank transfer | Send payment to ..."></textarea>
+                  </div>
+                  <div class="field-group">
+                    <label for="taxRateSettings">Tax rates (fraction; e.g. 0.13 for 13%)</label>
+                    <textarea id="taxRateSettings" rows="5" maxlength="4000" placeholder="CA-ON | 0.13"></textarea>
+                  </div>
+                  <button id="savePaymentSettings" class="primary-button" type="button">Save payment settings</button>
+                </div>
+                <div class="admin-list-panel">
                   <h4>Store status</h4>
                   <div id="storeHealthWidget" class="status-widget">
                     <p class="product-description">Loading store health...</p>
@@ -277,18 +516,32 @@
                 <div class="admin-list-panel">
                   <h4>Quick actions</h4>
                   <div class="quick-actions-list">
-                    <a href="#" class="quick-action-item">
+                    <a href="/" class="quick-action-item" target="_blank" rel="noopener noreferrer">
                       <strong>View live store</strong>
                       <span>Open the storefront</span>
                     </a>
-                    <a href="#" class="quick-action-item">
-                      <strong>Documentation</strong>
-                      <span>Learn more about PHLAPZ</span>
+                    <a href="/api/admin/debug-email" target="_blank" class="quick-action-item">
+                      <strong>Email configuration</strong>
+                      <span>Check if emails are set up</span>
                     </a>
                     <a href="mailto:support@phlapz.com" class="quick-action-item">
                       <strong>Get support</strong>
                       <span>Contact the team</span>
                     </a>
+                  </div>
+                </div>
+
+                <div id="adminCeoPanel" class="admin-panel hidden">
+                  <div class="admin-list-panel">
+                    <p class="eyebrow small">RESEARCH ONLY</p>
+                    <h4>PHLAPZ AI CEO</h4>
+                    <p class="product-description">Get proposed research and planning recommendations. The assistant cannot access or change store records, inventory, payments, or accounts. Do not include passwords, payment details, or customer information in commands.</p>
+                    <div class="field-group">
+                      <label for="ceoCommand">Command</label>
+                      <textarea id="ceoCommand" rows="5" maxlength="2000" placeholder="Ask for a research or planning recommendation..."></textarea>
+                    </div>
+                    <button id="ceoSend" class="primary-button" type="button">Send command</button>
+                    <pre id="ceoResponse" class="ceo-response" aria-live="polite"></pre>
                   </div>
                 </div>
               </div>
@@ -298,6 +551,15 @@
       </section>
     </main>
 
-    <script src="/app.js"></script>
+    <div id="appNotice" class="app-notice hidden" role="status" aria-live="polite"></div>
+
+    <footer class="site-footer">
+      <a class="footer-brand" href="/" aria-label="PHLAPZ home">PHLAPZ<span>.</span></a>
+      <p>BIG CRAVINGS. ANYTIME.</p>
+      <a href="mailto:support@phlapz.com">Contact support</a>
+      <small>&copy; <span id="currentYear"></span> Phlapz.com</small>
+    </footer>
+
+    <script src="/app.js" defer></script>
   </body>
 </html>

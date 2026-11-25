@@ -1,7 +1,17 @@
 node_modules/
 .env
+public/uploads/node_modules/
+.env
 .env.*
+!.env.example
+data/sessions/
+data/uploads/
 npm-debug.log*
 .DS_Store
 coverage/
 .vite/
+data/users.json
+data/business-settings.json
+data/payment-settings.json
+data/*.bak
+data/*.tmp
