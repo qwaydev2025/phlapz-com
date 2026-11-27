@@ -6,6 +6,8 @@ services:
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
+    domains:
+      - www.phlapz.com
     disk:
       name: phlapz-data
       mountPath: /var/data
