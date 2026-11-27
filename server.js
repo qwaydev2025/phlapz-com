@@ -60,8 +60,19 @@ const mailTransport = process.env.SMTP_HOST && process.env.SMTP_USER && process.
 fs.mkdirSync(dataPath, { recursive: true, mode: 0o700 });
 for (const fileName of ['products.json', 'orders.json']) {
   const targetPath = path.join(dataPath, fileName);
-  if (!fs.existsSync(targetPath)) {
-    fs.copyFileSync(path.join(bundledDataPath, fileName), targetPath);
+  const sourcePath = path.join(bundledDataPath, fileName);
+
+  if (fs.existsSync(targetPath)) {
+    continue;
+  }
+
+  if (
+    path.resolve(sourcePath) !== path.resolve(targetPath) &&
+    fs.existsSync(sourcePath)
+  ) {
+    fs.copyFileSync(sourcePath, targetPath);
+  } else {
+    fs.writeFileSync(targetPath, '[]', { mode: 0o600 });
   }
 }
 function ensureSnowblowerDraft() {
