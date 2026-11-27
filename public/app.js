@@ -237,9 +237,9 @@ function renderProducts() {
   }).sort((first, second) => Number(second.featured) - Number(first.featured));
 
   if (!filtered.length) {
-    productGrid.innerHTML = `<div class="product-description">${publishedProducts.length
-      ? 'No menu items match your search yet.'
-      : 'Our menu is being prepared. Check back soon.'}</div>`;
+    productGrid.innerHTML = publishedProducts.length
+      ? `<div class="menu-empty-state"><span class="menu-empty-icon" aria-hidden="true">⌕</span><div><h4>No menu items found</h4><p>Try another search or choose a different category.</p></div></div>`
+      : `<div class="menu-empty-state"><span class="menu-empty-icon" aria-hidden="true">✦</span><div><h4>Good things are cooking.</h4><p>We’re getting the PHLAPZ kitchen menu ready. Check back soon for what’s fresh.</p></div></div>`;
     return;
   }
 
